@@ -240,8 +240,12 @@ function Reveal({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfOUYubqMOMjZjBFUa9glZmytp8xwxDSFcAZdF_ShHKD2-LAw/viewform?usp=publish-editor";
+
 function Index() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [bannerOpen, setBannerOpen] = useState(true);
 
   const closeMobile = () => setMobileOpen(false);
 
@@ -249,6 +253,11 @@ function Index() {
     <div className="relative overflow-x-hidden bg-background text-foreground">
       <style>{`
         html { scroll-behavior: smooth; }
+        @keyframes banner-slide {
+          from { transform: translateY(-100%); opacity: 0; }
+          to   { transform: translateY(0);    opacity: 1; }
+        }
+        .banner-in { animation: banner-slide 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
 
         @keyframes marquee {
           from { transform: translateX(0); }
@@ -285,6 +294,44 @@ function Index() {
       `}</style>
 
       <BackgroundLattice />
+
+      {/* ── Promo Banner ────────────────────────────────────────────────── */}
+      {bannerOpen && (
+        <div className="banner-in relative z-50 flex items-center justify-between gap-4 bg-gradient-to-r from-[var(--amber)]/15 via-[var(--amber)]/10 to-[var(--teal)]/15 px-5 py-2.5 text-center backdrop-blur-sm border-b border-[var(--amber)]/25">
+          {/* left spacer to keep text centred */}
+          <span className="hidden w-6 md:block" />
+
+          <div className="flex flex-1 flex-wrap items-center justify-center gap-3">
+            <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.28em] text-[var(--amber)]">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--amber)]" />
+              LIMITED OFFER
+            </span>
+            <p className="text-[12px] tracking-wide text-foreground/90">
+              First <span className="font-semibold text-[var(--amber)]">5 clients</span> get our services{" "}
+              <span className="font-semibold text-[var(--amber)]">completely free.</span>
+            </p>
+            <a
+              href={FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-1.5 border border-[var(--amber)]/60 bg-[var(--amber)]/10 px-3 py-1 text-[10px] tracking-[0.22em] text-[var(--amber)] transition hover:bg-[var(--amber)] hover:text-background"
+            >
+              CLAIM YOUR SPOT
+              <span className="transition-transform group-hover:translate-x-0.5">→</span>
+            </a>
+          </div>
+
+          <button
+            onClick={() => setBannerOpen(false)}
+            aria-label="Dismiss banner"
+            className="shrink-0 text-muted-foreground/60 transition hover:text-foreground"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* ── Sticky Nav ──────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/75 backdrop-blur-xl">
