@@ -177,9 +177,12 @@ const NAV_LINKS = [
   ["#company", "CONTACT"],
 ] as const;
 
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfOUYubqMOMjZjBFUa9glZmytp8xwxDSFcAZdF_ShHKD2-LAw/viewform?usp=publish-editor";
+
 // ─── Hooks ───────────────────────────────────────────────────────────────────
 
-function useReveal(threshold = 0.15) {
+function useReveal(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -202,8 +205,6 @@ function useReveal(threshold = 0.15) {
   return { ref, visible };
 }
 
-// ─── Reveal wrapper ───────────────────────────────────────────────────────────
-
 function Reveal({
   children,
   className = "",
@@ -218,10 +219,10 @@ function Reveal({
   const { ref, visible } = useReveal();
   const translate =
     direction === "up"
-      ? "translateY(28px)"
+      ? "translateY(24px)"
       : direction === "left"
-        ? "translateX(-28px)"
-        : "translateX(28px)";
+        ? "translateX(-24px)"
+        : "translateX(24px)";
 
   return (
     <div
@@ -230,7 +231,7 @@ function Reveal({
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translate(0)" : translate,
-        transition: `opacity 0.65s ease ${delay}s, transform 0.65s ease ${delay}s`,
+        transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
       }}
     >
       {children}
@@ -239,9 +240,6 @@ function Reveal({
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-
-const FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSfOUYubqMOMjZjBFUa9glZmytp8xwxDSFcAZdF_ShHKD2-LAw/viewform?usp=publish-editor";
 
 function Index() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -285,7 +283,6 @@ function Index() {
           box-shadow: 0 0 36px -8px var(--card-glow-color, var(--teal));
         }
 
-        /* Mobile menu slide-in */
         @keyframes slide-in {
           from { transform: translateX(100%); }
           to   { transform: translateX(0); }
@@ -297,55 +294,55 @@ function Index() {
 
       {/* ── Promo Banner ────────────────────────────────────────────────── */}
       {bannerOpen && (
-        <div className="banner-in relative z-50 flex items-center justify-between gap-4 bg-gradient-to-r from-[var(--amber)]/15 via-[var(--amber)]/10 to-[var(--teal)]/15 px-5 py-2.5 text-center backdrop-blur-sm border-b border-[var(--amber)]/25">
-          {/* left spacer to keep text centred */}
-          <span className="hidden w-6 md:block" />
-
-          <div className="flex flex-1 flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.28em] text-[var(--amber)]">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--amber)]" />
-              LIMITED OFFER
-            </span>
-            <p className="text-[12px] tracking-wide text-foreground/90">
-              First <span className="font-semibold text-[var(--amber)]">5 clients</span> get our services{" "}
-              <span className="font-semibold text-[var(--amber)]">completely free.</span>
-            </p>
-            <a
-              href={FORM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 border border-[var(--amber)]/60 bg-[var(--amber)]/10 px-3 py-1 text-[10px] tracking-[0.22em] text-[var(--amber)] transition hover:bg-[var(--amber)] hover:text-background"
+        <div className="banner-in relative z-50 border-b border-[var(--amber)]/25 bg-gradient-to-r from-[var(--amber)]/15 via-[var(--amber)]/10 to-[var(--teal)]/15 backdrop-blur-sm">
+          <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2.5 sm:px-6">
+            {/* content */}
+            <div className="flex flex-1 flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center">
+              <span className="inline-flex items-center gap-1.5 font-mono text-[9px] tracking-[0.28em] text-[var(--amber)] sm:text-[10px]">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--amber)]" />
+                LIMITED OFFER
+              </span>
+              <p className="text-[11px] tracking-wide text-foreground/90 sm:text-[12px]">
+                First{" "}
+                <span className="font-semibold text-[var(--amber)]">5 clients</span>{" "}
+                get our services{" "}
+                <span className="font-semibold text-[var(--amber)]">completely free.</span>
+              </p>
+              <a
+                href={FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 border border-[var(--amber)]/60 bg-[var(--amber)]/10 px-3 py-1 text-[9px] tracking-[0.22em] text-[var(--amber)] transition hover:bg-[var(--amber)] hover:text-background sm:text-[10px]"
+              >
+                CLAIM YOUR SPOT
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              </a>
+            </div>
+            {/* close */}
+            <button
+              onClick={() => setBannerOpen(false)}
+              aria-label="Dismiss banner"
+              className="shrink-0 p-1 text-muted-foreground/60 transition hover:text-foreground"
             >
-              CLAIM YOUR SPOT
-              <span className="transition-transform group-hover:translate-x-0.5">→</span>
-            </a>
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
           </div>
-
-          <button
-            onClick={() => setBannerOpen(false)}
-            aria-label="Dismiss banner"
-            className="shrink-0 text-muted-foreground/60 transition hover:text-foreground"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </button>
         </div>
       )}
 
       {/* ── Sticky Nav ──────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/75 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-8 py-5 md:px-14">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 sm:px-8 md:px-14 md:py-5">
+          <a href="#" className="flex items-center gap-2.5">
             <LogoMark />
-            <span className="font-display text-[14px] font-600 tracking-[0.44em] text-foreground">
+            <span className="font-display text-[13px] font-600 tracking-[0.38em] text-foreground sm:text-[14px] sm:tracking-[0.44em]">
               VALENCE
             </span>
           </a>
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-10 text-[11px] tracking-[0.22em] text-muted-foreground md:flex">
+          <nav className="hidden items-center gap-8 text-[11px] tracking-[0.22em] text-muted-foreground md:flex lg:gap-10">
             {NAV_LINKS.map(([href, label]) => (
               <a key={href} href={href} className="group relative py-1 transition hover:text-foreground">
                 {label}
@@ -354,7 +351,6 @@ function Index() {
             ))}
           </nav>
 
-          {/* Desktop CTA */}
           <a
             href="mailto:tejasai29062004@gmail.com?subject=Project%20Enquiry%20via%20Valence"
             className="group relative hidden overflow-hidden border border-border/70 px-5 py-2 text-[11px] tracking-[0.25em] text-foreground transition hover:border-[var(--amber)] md:inline-flex md:items-center md:gap-2"
@@ -364,24 +360,18 @@ function Index() {
             <span className="relative">GET IN TOUCH</span>
           </a>
 
-          {/* Hamburger (mobile) */}
+          {/* Hamburger */}
           <button
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
             className="relative flex h-9 w-9 flex-col items-center justify-center gap-[5px] md:hidden"
           >
-            <span
-              className="h-px w-6 bg-foreground transition-all duration-300"
-              style={{ transform: mobileOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }}
-            />
-            <span
-              className="h-px w-6 bg-foreground transition-all duration-300"
-              style={{ opacity: mobileOpen ? 0 : 1, transform: mobileOpen ? "scaleX(0)" : "none" }}
-            />
-            <span
-              className="h-px w-6 bg-foreground transition-all duration-300"
-              style={{ transform: mobileOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }}
-            />
+            <span className="h-px w-6 bg-foreground transition-all duration-300"
+              style={{ transform: mobileOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
+            <span className="h-px w-6 bg-foreground transition-all duration-300"
+              style={{ opacity: mobileOpen ? 0 : 1 }} />
+            <span className="h-px w-6 bg-foreground transition-all duration-300"
+              style={{ transform: mobileOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
           </button>
         </div>
       </header>
@@ -389,36 +379,23 @@ function Index() {
       {/* ── Mobile Menu ─────────────────────────────────────────────────── */}
       {mobileOpen && (
         <>
-          {/* backdrop */}
-          <div
-            className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm"
-            onClick={closeMobile}
-          />
-          {/* drawer */}
-          <div className="mobile-menu-enter fixed right-0 top-0 z-50 flex h-full w-[75vw] max-w-xs flex-col border-l border-border/50 bg-background/95 px-8 py-8 backdrop-blur-xl">
+          <div className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm" onClick={closeMobile} />
+          <div className="mobile-menu-enter fixed right-0 top-0 z-50 flex h-full w-[80vw] max-w-xs flex-col border-l border-border/50 bg-background/95 px-6 py-7 backdrop-blur-xl">
             <div className="flex items-center justify-between">
-              <span className="font-display text-[13px] tracking-[0.4em] text-muted-foreground">
-                VALENCE
-              </span>
-              <button onClick={closeMobile} className="text-muted-foreground hover:text-foreground">
-                ✕
-              </button>
+              <span className="font-display text-[12px] tracking-[0.4em] text-muted-foreground">VALENCE</span>
+              <button onClick={closeMobile} className="p-1 text-muted-foreground hover:text-foreground">✕</button>
             </div>
 
-            <nav className="mt-12 flex flex-col gap-6">
+            <nav className="mt-10 flex flex-col gap-5">
               {NAV_LINKS.map(([href, label]) => (
-                <a
-                  key={href}
-                  href={href}
-                  onClick={closeMobile}
-                  className="border-b border-border/40 pb-4 text-[13px] tracking-[0.28em] text-muted-foreground transition hover:text-foreground"
-                >
+                <a key={href} href={href} onClick={closeMobile}
+                  className="border-b border-border/40 pb-4 text-[13px] tracking-[0.28em] text-muted-foreground transition hover:text-foreground">
                   {label}
                 </a>
               ))}
             </nav>
 
-            <div className="mt-auto">
+            <div className="mt-auto space-y-4">
               <a
                 href="mailto:tejasai29062004@gmail.com?subject=Project%20Enquiry%20via%20Valence"
                 onClick={closeMobile}
@@ -426,7 +403,7 @@ function Index() {
               >
                 GET IN TOUCH →
               </a>
-              <div className="mt-6 space-y-2 text-[10px] tracking-[0.2em] text-muted-foreground/60">
+              <div className="space-y-2 text-[10px] tracking-[0.18em] text-muted-foreground/60">
                 <a href="tel:+918106996118" className="block hover:text-foreground">+91 81069 96118</a>
                 <a href="mailto:tejasai29062004@gmail.com" className="block hover:text-foreground">tejasai29062004@gmail.com</a>
               </div>
@@ -438,22 +415,23 @@ function Index() {
       <main className="relative z-10">
 
         {/* ── Hero ────────────────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-[1400px] px-8 md:px-14">
-          <div className="grid min-h-[88vh] grid-cols-12 items-center gap-8 pt-12">
+        <section className="mx-auto max-w-[1400px] px-4 sm:px-8 md:px-14">
+          <div className="grid grid-cols-12 items-center gap-6 pb-12 pt-10 md:min-h-[88vh] md:gap-8 md:pt-12">
+
+            {/* Text col — full width on mobile, 7 cols on lg */}
             <div className="col-span-12 lg:col-span-7">
-              <div className="fade-up fade-up-1 mb-10 flex items-center gap-4 text-[11px] tracking-[0.32em] text-muted-foreground">
-                <span className="h-px w-10 bg-[var(--teal)]/70" />
+              <div className="fade-up fade-up-1 mb-8 flex flex-wrap items-center gap-3 text-[11px] tracking-[0.32em] text-muted-foreground md:mb-10">
+                <span className="h-px w-8 bg-[var(--teal)]/70 sm:w-10" />
                 <span>VLC / 001 · DEEP-TECH</span>
-                <span className="ml-2 inline-flex items-center gap-1.5 rounded-full border border-[var(--teal)]/30 bg-[var(--teal)]/10 px-2.5 py-0.5 text-[9px] tracking-[0.2em] text-[var(--teal)]">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--teal)]/30 bg-[var(--teal)]/10 px-2.5 py-0.5 text-[9px] tracking-[0.2em] text-[var(--teal)]">
                   <span className="h-1 w-1 animate-pulse rounded-full bg-[var(--teal)]" />
                   ACTIVE
                 </span>
               </div>
 
-              <h1 className="fade-up fade-up-2 font-display text-[clamp(2.8rem,7.5vw,7rem)] font-300 leading-[0.95] tracking-[-0.04em]">
+              <h1 className="fade-up fade-up-2 font-display text-[clamp(2.4rem,8vw,7rem)] font-300 leading-[0.95] tracking-[-0.04em]">
                 Silicon
-                <br />
-                to Software.
+                <br />to Software.
                 <br />
                 <span className="relative mt-1 inline-block">
                   <span
@@ -466,16 +444,16 @@ function Index() {
                 </span>
               </h1>
 
-              <p className="fade-up fade-up-3 mt-10 max-w-lg text-[15px] leading-[1.75] text-muted-foreground">
+              <p className="fade-up fade-up-3 mt-8 max-w-lg text-[14px] leading-[1.8] text-muted-foreground sm:text-[15px] md:mt-10">
                 Valence engineers the full spectrum of modern technology — from
                 atomic-scale silicon and embedded firmware to cloud-native SaaS,
                 decentralized networks, and production-grade applications.
               </p>
 
-              <div className="fade-up fade-up-4 mt-12 flex flex-wrap items-center gap-4">
+              <div className="fade-up fade-up-4 mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 md:mt-12">
                 <a
                   href="#services"
-                  className="group relative inline-flex items-center gap-3 overflow-hidden bg-foreground px-7 py-3.5 text-[12px] tracking-[0.28em] text-background transition"
+                  className="group relative inline-flex items-center justify-center gap-3 overflow-hidden bg-foreground px-6 py-3.5 text-[12px] tracking-[0.28em] text-background transition sm:justify-start sm:px-7"
                 >
                   <span className="absolute inset-0 -translate-y-full bg-[var(--amber)] transition-transform duration-300 group-hover:translate-y-0" />
                   <span className="relative">EXPLORE SERVICES</span>
@@ -483,7 +461,7 @@ function Index() {
                 </a>
                 <a
                   href="#team"
-                  className="inline-flex items-center gap-3 px-2 py-3.5 text-[12px] tracking-[0.28em] text-muted-foreground transition hover:text-foreground"
+                  className="inline-flex items-center justify-center gap-3 py-3 text-[12px] tracking-[0.28em] text-muted-foreground transition hover:text-foreground sm:justify-start sm:px-2 sm:py-3.5"
                 >
                   <span className="h-px w-6 bg-current" />
                   MEET THE TEAM
@@ -491,36 +469,42 @@ function Index() {
               </div>
             </div>
 
-            <div className="col-span-12 lg:col-span-5">
+            {/* Instrument panel — hidden on mobile, shown from lg */}
+            <div className="col-span-12 mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">
               <InstrumentPanel />
+            </div>
+
+            {/* Compact panel visible only on md (tablet) */}
+            <div className="col-span-12 mt-6 block lg:hidden">
+              <InstrumentPanelCompact />
             </div>
           </div>
         </section>
 
         {/* ── Stats bar ───────────────────────────────────────────────────── */}
-        <Reveal className="mx-auto max-w-[1400px] px-8 md:px-14">
+        <Reveal className="mx-auto max-w-[1400px] px-4 sm:px-8 md:px-14">
           <div className="grid grid-cols-2 gap-px border-t border-border/50 bg-border/20 md:grid-cols-4">
             {[
               { k: "6",    l: "CORE DISCIPLINES", s: "SILICON · SOFTWARE" },
               { k: "3+",   l: "YEARS IN MARKET",  s: "SHIPPING SINCE 2023" },
               { k: "∞",    l: "STACK DEPTH",       s: "PCB TO CLOUD" },
-              { k: "100%", l: "FULL-STACK",        s: "VISAKHAPATNAM · GLOBAL" },
+              { k: "100%", l: "FULL-STACK",        s: "VIZAG · GLOBAL" },
             ].map((m) => (
-              <div key={m.l} className="bg-background px-6 py-6">
-                <div className="font-display text-[2rem] font-300 tracking-tight text-foreground">{m.k}</div>
-                <div className="mt-2 text-[9.5px] tracking-[0.3em] text-muted-foreground">{m.l}</div>
-                <div className="mt-1 text-[9px] tracking-[0.2em] text-muted-foreground/50">{m.s}</div>
+              <div key={m.l} className="bg-background px-4 py-5 sm:px-6 sm:py-6">
+                <div className="font-display text-[1.7rem] font-300 tracking-tight text-foreground sm:text-[2rem]">{m.k}</div>
+                <div className="mt-1.5 text-[9px] tracking-[0.25em] text-muted-foreground sm:mt-2 sm:text-[9.5px] sm:tracking-[0.3em]">{m.l}</div>
+                <div className="mt-1 text-[9px] tracking-[0.18em] text-muted-foreground/50 sm:tracking-[0.2em]">{m.s}</div>
               </div>
             ))}
           </div>
         </Reveal>
 
         {/* ── Marquee ticker ──────────────────────────────────────────────── */}
-        <div className="mt-16 overflow-hidden border-y border-border/40 bg-card/20 py-3">
+        <div className="mt-10 overflow-hidden border-y border-border/40 bg-card/20 py-3 md:mt-16">
           <div className="flex whitespace-nowrap">
             <div className="marquee-track flex shrink-0 items-center">
               {[...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-                <span key={i} className="inline-flex items-center gap-5 px-6 font-mono text-[10px] tracking-[0.35em] text-muted-foreground/60">
+                <span key={i} className="inline-flex items-center gap-4 px-5 font-mono text-[9px] tracking-[0.3em] text-muted-foreground/60 sm:gap-5 sm:px-6 sm:text-[10px] sm:tracking-[0.35em]">
                   <span className="h-1 w-1 rounded-full" style={{ backgroundColor: i % 2 === 0 ? "var(--amber)" : "var(--teal)" }} />
                   {item}
                 </span>
@@ -530,22 +514,22 @@ function Index() {
         </div>
 
         {/* ── Services ────────────────────────────────────────────────────── */}
-        <section id="services" className="mx-auto mt-28 max-w-[1400px] px-8 md:px-14">
+        <section id="services" className="mx-auto mt-16 max-w-[1400px] px-4 sm:px-8 md:mt-28 md:px-14">
           <Reveal>
             <SectionLabel index="002" label="SERVICES" />
-            <div className="mt-6 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-              <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-300 leading-[1.05] tracking-[-0.03em]">
+            <div className="mt-5 flex flex-col gap-3 md:mt-6 lg:flex-row lg:items-end lg:justify-between">
+              <h2 className="font-display text-[clamp(1.8rem,5vw,3.4rem)] font-300 leading-[1.05] tracking-[-0.03em]">
                 What We Build
               </h2>
               <p className="max-w-xs text-[13px] leading-relaxed text-muted-foreground lg:text-right">
-                Six disciplines. One team.<br />Every engagement, obsessive craft.
+                Six disciplines. One team.<br className="hidden sm:block" />Every engagement, obsessive craft.
               </p>
             </div>
           </Reveal>
 
-          <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-14 md:gap-4 lg:grid-cols-3">
             {SERVICES.map((s, i) => (
-              <Reveal key={s.id} delay={i * 0.08}>
+              <Reveal key={s.id} delay={i * 0.06}>
                 <ServiceCard {...s} />
               </Reveal>
             ))}
@@ -553,23 +537,23 @@ function Index() {
         </section>
 
         {/* ── Process ─────────────────────────────────────────────────────── */}
-        <section id="systems" className="mx-auto mt-28 max-w-[1400px] px-8 md:px-14">
+        <section id="systems" className="mx-auto mt-16 max-w-[1400px] px-4 sm:px-8 md:mt-28 md:px-14">
           <Reveal>
             <SectionLabel index="003" label="HOW WE WORK" />
           </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-px border border-border/40 bg-border/20 md:grid-cols-4">
+          <div className="mt-8 grid grid-cols-1 gap-px border border-border/40 bg-border/20 sm:grid-cols-2 md:mt-10 md:grid-cols-4">
             {[
               { n: "01", title: "Discovery",    desc: "We map your goals, constraints, and tech landscape before writing a single line." },
               { n: "02", title: "Architecture", desc: "System design crafted for longevity — scalable, secure, and maintainable." },
               { n: "03", title: "Execution",    desc: "Iterative delivery with full transparency. No black boxes, no surprises." },
               { n: "04", title: "Handoff",      desc: "Documented, tested, and production-ready. You own everything." },
             ].map((step, i) => (
-              <Reveal key={step.n} delay={i * 0.1} direction={i % 2 === 0 ? "left" : "right"}>
-                <div className="group relative bg-background p-7 transition hover:bg-card/50">
+              <Reveal key={step.n} delay={i * 0.08}>
+                <div className="group relative h-full bg-background p-6 transition hover:bg-card/50 md:p-7">
                   <span className="font-mono text-[10px] tracking-[0.3em]" style={{ color: i % 2 === 0 ? "var(--teal)" : "var(--amber)" }}>
                     {step.n}
                   </span>
-                  <h3 className="mt-4 font-display text-[1rem] font-500 tracking-tight">{step.title}</h3>
+                  <h3 className="mt-3 font-display text-[1rem] font-500 tracking-tight md:mt-4">{step.title}</h3>
                   <p className="mt-2 text-[12.5px] leading-relaxed text-muted-foreground">{step.desc}</p>
                   <span
                     className="absolute bottom-0 left-0 h-px w-0 transition-all duration-300 group-hover:w-full"
@@ -582,22 +566,22 @@ function Index() {
         </section>
 
         {/* ── Team ────────────────────────────────────────────────────────── */}
-        <section id="team" className="mx-auto mt-28 max-w-[1400px] px-8 md:px-14">
+        <section id="team" className="mx-auto mt-16 max-w-[1400px] px-4 sm:px-8 md:mt-28 md:px-14">
           <Reveal>
             <SectionLabel index="004" label="LEADERSHIP" />
-            <div className="mt-6 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-              <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-300 leading-[1.05] tracking-[-0.03em]">
+            <div className="mt-5 flex flex-col gap-3 md:mt-6 lg:flex-row lg:items-end lg:justify-between">
+              <h2 className="font-display text-[clamp(1.8rem,5vw,3.4rem)] font-300 leading-[1.05] tracking-[-0.03em]">
                 The People Behind Valence
               </h2>
               <p className="max-w-xs text-[13px] leading-relaxed text-muted-foreground lg:text-right">
-                Built by engineers who have worked<br />across the full stack — PCB to cloud.
+                Built by engineers who have worked<br className="hidden sm:block" />across the full stack — PCB to cloud.
               </p>
             </div>
           </Reveal>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="mt-8 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-2 md:gap-6">
             {TEAM.map((member, i) => (
-              <Reveal key={member.name} delay={i * 0.12} direction={i % 2 === 0 ? "left" : "right"}>
+              <Reveal key={member.name} delay={i * 0.1}>
                 <TeamCard {...member} />
               </Reveal>
             ))}
@@ -605,35 +589,34 @@ function Index() {
         </section>
 
         {/* ── CTA ─────────────────────────────────────────────────────────── */}
-        <section id="company" className="mx-auto mb-0 mt-28 max-w-[1400px] px-8 md:px-14">
+        <section id="company" className="mx-auto mb-0 mt-16 max-w-[1400px] px-4 sm:px-8 md:mt-28 md:px-14">
           <Reveal>
-            <div className="relative overflow-hidden border border-border/50 bg-card/20 p-12 md:p-20">
-              {/* ambient glow */}
+            <div className="relative overflow-hidden border border-border/50 bg-card/20 p-6 sm:p-10 md:p-16 lg:p-20">
               <div
                 className="pointer-events-none absolute -top-20 left-1/2 h-64 w-96 -translate-x-1/2 rounded-full opacity-20 blur-3xl"
                 style={{ background: "radial-gradient(ellipse, var(--amber) 0%, transparent 70%)" }}
               />
               {["left-0 top-0","right-0 top-0 rotate-90","right-0 bottom-0 rotate-180","left-0 bottom-0 -rotate-90"].map((c) => (
-                <span key={c} className={`absolute h-5 w-5 border-l-2 border-t-2 border-[var(--amber)]/50 ${c}`} />
+                <span key={c} className={`absolute h-4 w-4 border-l-2 border-t-2 border-[var(--amber)]/50 sm:h-5 sm:w-5 ${c}`} />
               ))}
 
               <SectionLabel index="005" label="START A PROJECT" />
-              <h2 className="relative mt-6 font-display text-[clamp(2rem,5vw,3.8rem)] font-300 leading-[1.05] tracking-[-0.03em]">
+              <h2 className="relative mt-5 font-display text-[clamp(1.8rem,5vw,3.8rem)] font-300 leading-[1.05] tracking-[-0.03em] md:mt-6">
                 Ready to build something{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(90deg, var(--amber), var(--teal))" }}>
                   extraordinary?
                 </span>
               </h2>
-              <p className="relative mt-5 max-w-xl text-[14px] leading-relaxed text-muted-foreground">
+              <p className="relative mt-4 max-w-xl text-[13px] leading-relaxed text-muted-foreground sm:text-[14px] md:mt-5">
                 Whether you need a consumer app, a blockchain protocol, custom silicon,
                 or a full-stack SaaS platform — Valence has the depth to deliver from
                 concept to production.
               </p>
 
-              <div className="relative mt-10 flex flex-wrap gap-4">
+              <div className="relative mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-10">
                 <a
                   href="mailto:tejasai29062004@gmail.com?subject=Project%20Enquiry%20via%20Valence"
-                  className="group relative inline-flex items-center gap-3 overflow-hidden bg-foreground px-8 py-4 text-[12px] tracking-[0.28em] text-background"
+                  className="group relative inline-flex items-center justify-center gap-3 overflow-hidden bg-foreground px-6 py-4 text-[12px] tracking-[0.28em] text-background sm:justify-start sm:px-8"
                 >
                   <span className="absolute inset-0 -translate-y-full bg-[var(--amber)] transition-transform duration-300 group-hover:translate-y-0" />
                   <span className="relative">START A PROJECT</span>
@@ -641,13 +624,13 @@ function Index() {
                 </a>
                 <a
                   href="tel:+918106996118"
-                  className="inline-flex items-center gap-3 border border-border/60 px-8 py-4 text-[12px] tracking-[0.28em] text-muted-foreground transition hover:border-[var(--teal)] hover:text-foreground"
+                  className="inline-flex items-center justify-center gap-3 border border-border/60 px-6 py-4 text-[12px] tracking-[0.28em] text-muted-foreground transition hover:border-[var(--teal)] hover:text-foreground sm:justify-start sm:px-8"
                 >
                   SCHEDULE A CALL
                 </a>
               </div>
 
-              <div className="relative mt-10 grid grid-cols-1 gap-4 border-t border-border/40 pt-8 sm:grid-cols-3">
+              <div className="relative mt-8 grid grid-cols-1 gap-5 border-t border-border/40 pt-7 sm:grid-cols-3 sm:gap-4 md:mt-10 md:pt-8">
                 <div>
                   <p className="font-mono text-[9px] tracking-[0.3em] text-muted-foreground/50">PHONE</p>
                   <a href="tel:+918106996118" className="mt-2 block text-[13px] tracking-wide text-foreground transition hover:text-[var(--amber)]">
@@ -656,7 +639,7 @@ function Index() {
                 </div>
                 <div>
                   <p className="font-mono text-[9px] tracking-[0.3em] text-muted-foreground/50">EMAIL</p>
-                  <a href="mailto:tejasai29062004@gmail.com" className="mt-2 block text-[13px] tracking-wide text-foreground transition hover:text-[var(--teal)]">
+                  <a href="mailto:tejasai29062004@gmail.com" className="mt-2 block break-all text-[13px] tracking-wide text-foreground transition hover:text-[var(--teal)]">
                     tejasai29062004@gmail.com
                   </a>
                 </div>
@@ -670,11 +653,11 @@ function Index() {
         </section>
 
         {/* ── Footer ──────────────────────────────────────────────────────── */}
-        <footer className="mx-auto mt-0 max-w-[1400px] px-8 md:px-14">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border/40 py-6 text-[10px] tracking-[0.28em] text-muted-foreground">
-            <div className="flex items-center gap-3">
-              <LogoMark size={18} />
-              <span>© 2026 VALENCE CORPORATION · ALL RIGHTS RESERVED</span>
+        <footer className="mx-auto mt-0 max-w-[1400px] px-4 sm:px-8 md:px-14">
+          <div className="flex flex-col items-center gap-3 border-t border-border/40 py-6 text-[9px] tracking-[0.22em] text-muted-foreground sm:flex-row sm:justify-between sm:text-[10px] sm:tracking-[0.28em]">
+            <div className="flex items-center gap-2.5">
+              <LogoMark size={16} />
+              <span className="text-center sm:text-left">© 2026 VALENCE CORPORATION · ALL RIGHTS RESERVED</span>
             </div>
             <span className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--teal)] shadow-[0_0_8px_var(--teal)]" />
@@ -692,8 +675,8 @@ function Index() {
 
 function SectionLabel({ index, label }: { index: string; label: string }) {
   return (
-    <div className="flex items-center gap-4 text-[11px] tracking-[0.32em] text-muted-foreground">
-      <span className="h-px w-10 bg-[var(--amber)]/60" />
+    <div className="flex items-center gap-3 text-[10px] tracking-[0.28em] text-muted-foreground sm:gap-4 sm:text-[11px] sm:tracking-[0.32em]">
+      <span className="h-px w-8 bg-[var(--amber)]/60 sm:w-10" />
       <span className="text-[var(--amber)]/70">VLC / {index}</span>
       <span className="text-border">·</span>
       <span>{label}</span>
@@ -704,27 +687,27 @@ function SectionLabel({ index, label }: { index: string; label: string }) {
 function ServiceCard({ id, title, tag, accent, description, stack, icon }: (typeof SERVICES)[number]) {
   return (
     <div
-      className="card-glow group relative flex h-full flex-col border border-border/50 bg-card/20 p-7 transition-all duration-300 hover:border-border hover:bg-card/50"
+      className="card-glow group relative flex h-full flex-col border border-border/50 bg-card/20 p-5 transition-all duration-300 hover:border-border hover:bg-card/50 sm:p-7"
       style={{ "--card-glow-color": accent } as React.CSSProperties}
     >
       <span className="absolute left-0 top-0 h-px w-0 transition-all duration-500 group-hover:w-full" style={{ backgroundColor: accent }} />
 
       <div className="flex items-start justify-between">
-        <div className="flex h-12 w-12 items-center justify-center border border-current/20 bg-current/5 transition-colors" style={{ color: accent } as React.CSSProperties}>
+        <div className="flex h-10 w-10 items-center justify-center border border-current/20 bg-current/5 sm:h-12 sm:w-12" style={{ color: accent } as React.CSSProperties}>
           {icon}
         </div>
         <span className="font-mono text-[10px] tracking-[0.25em] text-muted-foreground/40">{id}</span>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-4 sm:mt-5">
         <span className="font-mono text-[9px] tracking-[0.3em]" style={{ color: accent }}>{tag}</span>
       </div>
-      <h3 className="mt-2 font-display text-[1.1rem] font-500 tracking-tight text-foreground">{title}</h3>
-      <p className="mt-3 flex-1 text-[13px] leading-relaxed text-muted-foreground">{description}</p>
+      <h3 className="mt-1.5 font-display text-[1rem] font-500 tracking-tight text-foreground sm:mt-2 sm:text-[1.1rem]">{title}</h3>
+      <p className="mt-2.5 flex-1 text-[12.5px] leading-relaxed text-muted-foreground sm:mt-3 sm:text-[13px]">{description}</p>
 
-      <div className="mt-6 flex flex-wrap gap-1.5">
+      <div className="mt-5 flex flex-wrap gap-1.5 sm:mt-6">
         {stack.map((t) => (
-          <span key={t} className="border border-border/50 bg-background/50 px-2.5 py-1 font-mono text-[9px] tracking-[0.18em] text-muted-foreground/60 transition-colors group-hover:border-border">
+          <span key={t} className="border border-border/50 bg-background/50 px-2 py-0.5 font-mono text-[9px] tracking-[0.15em] text-muted-foreground/60 transition-colors group-hover:border-border sm:px-2.5 sm:py-1 sm:tracking-[0.18em]">
             {t}
           </span>
         ))}
@@ -736,14 +719,14 @@ function ServiceCard({ id, title, tag, accent, description, stack, icon }: (type
 function TeamCard({ name, initial, role, tag, accent, bio }: (typeof TEAM)[number]) {
   return (
     <div
-      className="card-glow group relative overflow-hidden border border-border/50 bg-card/20 p-8 transition-all duration-300 hover:border-border hover:bg-card/40 md:flex md:gap-8"
+      className="card-glow group relative overflow-hidden border border-border/50 bg-card/20 p-6 transition-all duration-300 hover:border-border hover:bg-card/40 sm:flex sm:gap-7 sm:p-8"
       style={{ "--card-glow-color": accent } as React.CSSProperties}
     >
       <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-15" style={{ backgroundColor: accent }} />
       <span className="absolute left-0 top-0 h-px w-0 transition-all duration-500 group-hover:w-full" style={{ backgroundColor: accent }} />
 
-      <div className="mb-6 shrink-0 md:mb-0">
-        <div className="relative flex h-20 w-20 items-center justify-center border text-[2rem] font-300" style={{ borderColor: `${accent}40`, color: accent }}>
+      <div className="mb-5 shrink-0 sm:mb-0">
+        <div className="relative flex h-16 w-16 items-center justify-center border text-[1.6rem] font-300 sm:h-20 sm:w-20 sm:text-[2rem]" style={{ borderColor: `${accent}40`, color: accent }}>
           <span className="absolute inset-0 opacity-10" style={{ background: `radial-gradient(ellipse at center, ${accent}, transparent)` }} />
           <span className="relative">{initial}</span>
         </div>
@@ -751,9 +734,9 @@ function TeamCard({ name, initial, role, tag, accent, bio }: (typeof TEAM)[numbe
 
       <div className="flex-1">
         <span className="font-mono text-[9px] tracking-[0.3em]" style={{ color: accent }}>{tag}</span>
-        <h3 className="mt-2 font-display text-[1.15rem] font-500 tracking-tight text-foreground">{name}</h3>
+        <h3 className="mt-1.5 font-display text-[1.05rem] font-500 tracking-tight text-foreground sm:mt-2 sm:text-[1.15rem]">{name}</h3>
         <p className="mt-0.5 font-mono text-[10px] tracking-[0.22em] text-muted-foreground">{role.toUpperCase()}</p>
-        <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">{bio}</p>
+        <p className="mt-3 text-[12.5px] leading-relaxed text-muted-foreground sm:mt-4 sm:text-[13px]">{bio}</p>
       </div>
     </div>
   );
@@ -770,13 +753,13 @@ function LogoMark({ size = 26 }: { size?: number }) {
   );
 }
 
+/* Full instrument panel — desktop only */
 function InstrumentPanel() {
   return (
     <div className="relative w-full border border-border/60 bg-card/30 p-6 backdrop-blur-sm">
       {["left-0 top-0","right-0 top-0 rotate-90","right-0 bottom-0 rotate-180","left-0 bottom-0 -rotate-90"].map((c) => (
         <span key={c} className={`absolute h-3.5 w-3.5 border-l-[1.5px] border-t-[1.5px] border-[var(--amber)] ${c}`} />
       ))}
-
       <div className="flex items-center justify-between text-[10px] tracking-[0.28em] text-muted-foreground">
         <span>NODE / VLC-Δ</span>
         <span className="flex items-center gap-1.5 text-[var(--teal)]">
@@ -784,7 +767,6 @@ function InstrumentPanel() {
           LIVE
         </span>
       </div>
-
       <svg viewBox="0 0 240 260" className="mt-4 w-full">
         <defs>
           <linearGradient id="bond" x1="0" x2="1">
@@ -802,8 +784,7 @@ function InstrumentPanel() {
         </defs>
         <g stroke="url(#bond)" strokeWidth="0.7" fill="none" opacity="0.8">
           <path d="M120 25 L120 80 L65 115 L65 185 L120 220 L175 185 L175 115 L120 80" />
-          <path d="M65 115 L175 115" />
-          <path d="M65 185 L175 185" />
+          <path d="M65 115 L175 115" /><path d="M65 185 L175 185" />
           <path d="M120 80 L120 220" />
           <path d="M35 150 L65 150 M175 150 L205 150" />
           <path d="M120 25 L120 8 M120 220 L120 252" />
@@ -818,25 +799,44 @@ function InstrumentPanel() {
           </g>
         ))}
         <g fontFamily="JetBrains Mono, monospace" fontSize="6" fill="oklch(0.68 0.018 248)" letterSpacing="1.2">
-          <text x="124" y="17">Si</text>
-          <text x="124" y="73">C</text>
-          <text x="49" y="109">N</text>
-          <text x="181" y="109">O</text>
-          <text x="124" y="143">Fe</text>
-          <text x="124" y="246">⌬</text>
+          <text x="124" y="17">Si</text><text x="124" y="73">C</text>
+          <text x="49" y="109">N</text><text x="181" y="109">O</text>
+          <text x="124" y="143">Fe</text><text x="124" y="246">⌬</text>
         </g>
       </svg>
-
       <div className="mt-4 grid grid-cols-3 gap-2 border-t border-border/50 pt-4 font-mono text-[9px] tracking-widest text-muted-foreground">
+        {[{ v: "0.42", l: "FLUX", c: "text-foreground" },{ v: "128k", l: "CYCLES", c: "text-foreground" },{ v: "SYNC", l: "STATE", c: "text-[var(--amber)]" }].map((d) => (
+          <div key={d.l}><div className={d.c}>{d.v}</div><div className="mt-1 opacity-60">{d.l}</div></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* Compact horizontal panel — tablet/mobile only */
+function InstrumentPanelCompact() {
+  return (
+    <div className="relative border border-border/60 bg-card/30 p-4 backdrop-blur-sm sm:p-5">
+      {["left-0 top-0","right-0 top-0 rotate-90","right-0 bottom-0 rotate-180","left-0 bottom-0 -rotate-90"].map((c) => (
+        <span key={c} className={`absolute h-3 w-3 border-l border-t border-[var(--amber)] ${c}`} />
+      ))}
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[9px] tracking-[0.28em] text-muted-foreground">NODE / VLC-Δ</span>
+        <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-[0.2em] text-[var(--teal)]">
+          <span className="h-1 w-1 animate-pulse rounded-full bg-[var(--teal)]" />
+          LIVE
+        </span>
+      </div>
+      <div className="mt-4 grid grid-cols-3 gap-3 border-t border-border/50 pt-4 font-mono text-[9px] tracking-widest text-muted-foreground sm:grid-cols-6">
         {[
           { v: "0.42", l: "FLUX",   c: "text-foreground" },
           { v: "128k", l: "CYCLES", c: "text-foreground" },
           { v: "SYNC", l: "STATE",  c: "text-[var(--amber)]" },
+          { v: "Si",   l: "LAYER",  c: "text-[var(--teal)]" },
+          { v: "3nm",  l: "NODE",   c: "text-foreground" },
+          { v: "VLC",  l: "NET",    c: "text-foreground" },
         ].map((d) => (
-          <div key={d.l}>
-            <div className={d.c}>{d.v}</div>
-            <div className="mt-1 opacity-60">{d.l}</div>
-          </div>
+          <div key={d.l}><div className={d.c}>{d.v}</div><div className="mt-1 opacity-60">{d.l}</div></div>
         ))}
       </div>
     </div>
@@ -848,12 +848,7 @@ function BackgroundLattice() {
     <>
       <div className="pointer-events-none fixed inset-0 z-0" style={{ background: "var(--gradient-radial)" }} />
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_bottom,transparent_30%,oklch(0.12_0.02_252)_90%)]" />
-      <svg
-        className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-[0.15]"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid slice"
-        viewBox="0 0 1600 1000"
-      >
+      <svg className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-[0.15]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1600 1000">
         <defs>
           <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
             <path d="M80 0 L0 0 0 80" fill="none" stroke="oklch(0.55 0.04 240)" strokeWidth="0.4" />
@@ -869,22 +864,15 @@ function BackgroundLattice() {
         <rect width="100%" height="100%" fill="url(#grid)" />
         <rect width="100%" height="100%" fill="url(#vlsi)" opacity="0.7" />
       </svg>
-      <svg
-        className="pointer-events-none fixed right-[-10%] top-[5%] z-0 h-[120%] w-[80%] opacity-[0.1]"
-        viewBox="0 0 800 800"
-      >
+      <svg className="pointer-events-none fixed right-[-10%] top-[5%] z-0 h-[120%] w-[80%] opacity-[0.1]" viewBox="0 0 800 800">
         {Array.from({ length: 9 }).map((_, r) =>
           Array.from({ length: 9 }).map((_, c) => {
             const x = c * 90 + (r % 2) * 45;
             const y = r * 78;
             return (
-              <polygon
-                key={`${r}-${c}`}
+              <polygon key={`${r}-${c}`}
                 points={`${x},${y+26} ${x+26},${y} ${x+52},${y+26} ${x+52},${y+78} ${x+26},${y+104} ${x},${y+78}`}
-                fill="none"
-                stroke="oklch(0.7 0.05 200)"
-                strokeWidth="0.5"
-              />
+                fill="none" stroke="oklch(0.7 0.05 200)" strokeWidth="0.5" />
             );
           })
         )}
